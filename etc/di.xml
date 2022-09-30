@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Evedove\AccessTicket\Api\Data\TicketInterface" type="Evedove\AccessTicket\Model\Ticket"/>
+    <preference for="Evedove\AccessTicket\Api\Data\AccessRequestInterface" type="Evedove\AccessTicket\Model\AccessRequest"/>
+    <preference for="Evedove\AccessTicket\Api\Data\AccessInterface" type="Evedove\AccessTicket\Model\Access"/>
+</config>

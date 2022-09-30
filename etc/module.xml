@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="
+" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Evedove_AccessTicket" setup_version="0.0.1" />
+</config>
