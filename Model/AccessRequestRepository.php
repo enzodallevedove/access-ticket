@@ -4,9 +4,7 @@ namespace Evedove\AccessTicket\Model;
 
 use Evedove\AccessTicket\Api\AccessRequestRepositoryInterface;
 use Evedove\AccessTicket\Api\Data\AccessRequestInterface;
-use Evedove\AccessTicket\Api\Data\AccessRequestSearchResultInterface;
-use Evedove\AccessTicket\Api\Data\AccessRequestSearchResultInterfaceFactory;
-use Evedove\AccessTicket\Model\AccessRequestFactory;
+use Evedove\AccessTicket\Api\Data\AccessRequestSearchResultsInterfaceFactory;
 use Evedove\AccessTicket\Model\ResourceModel\AccessRequest as AccessRequestResourceModel;
 use Evedove\AccessTicket\Model\ResourceModel\AccessRequest\CollectionFactory as AccessRequestCollectionFactory;
 use Exception;
@@ -25,7 +23,7 @@ class AccessRequestRepository implements AccessRequestRepositoryInterface
     /**
      * @var \Evedove\AccessTicket\Model\ResourceModel\AccessRequest
      */
-    protected AccessRequestResourceModel $accessTicketResourceModel;
+    protected AccessRequestResourceModel $resource;
 
     /**
      * @var \Evedove\AccessTicket\Model\ResourceModel\AccessRequest\CollectionFactory
@@ -33,9 +31,9 @@ class AccessRequestRepository implements AccessRequestRepositoryInterface
     protected AccessRequestCollectionFactory $accessTicketCollectionFactory;
 
     /**
-     * @var \Evedove\AccessTicket\Api\Data\AccessRequestSearchResultInterfaceFactory
+     * @var \Evedove\AccessTicket\Api\Data\AccessRequestSearchResultsInterfaceFactory
      */
-    protected AccessRequestSearchResultInterfaceFactory $searchResultFactory;
+    protected AccessRequestSearchResultsInterfaceFactory $searchResultsFactory;
 
     /**
      * @var \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface
@@ -44,23 +42,23 @@ class AccessRequestRepository implements AccessRequestRepositoryInterface
 
     /**
      * @param \Evedove\AccessTicket\Model\AccessRequestFactory $accessTicketFactory
-     * @param \Evedove\AccessTicket\Model\ResourceModel\AccessRequest $accessTicketResourceModel
+     * @param \Evedove\AccessTicket\Model\ResourceModel\AccessRequest $resource
      * @param \Evedove\AccessTicket\Model\ResourceModel\AccessRequest\CollectionFactory $accessTicketCollectionFactory
-     * @param \Evedove\AccessTicket\Api\Data\AccessRequestSearchResultInterfaceFactory $accessTicketSearchResultInterfaceFactory
+     * @param \Evedove\AccessTicket\Api\Data\AccessRequestSearchResultsInterfaceFactory $searchResultsFactory
      * @param \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface $collectionProcessor
      */
     public function __construct(
-        AccessRequestFactory                      $accessTicketFactory,
-        AccessRequestResourceModel                $accessTicketResourceModel,
-        AccessRequestCollectionFactory            $accessTicketCollectionFactory,
-        AccessRequestSearchResultInterfaceFactory $accessTicketSearchResultInterfaceFactory,
-        CollectionProcessorInterface              $collectionProcessor
+        AccessRequestFactory                       $accessTicketFactory,
+        AccessRequestResourceModel                 $resource,
+        AccessRequestCollectionFactory             $accessTicketCollectionFactory,
+        AccessRequestSearchResultsInterfaceFactory $searchResultsFactory,
+        CollectionProcessorInterface               $collectionProcessor
     )
     {
         $this->accessTicketFactory = $accessTicketFactory;
-        $this->accessTicketResourceModel = $accessTicketResourceModel;
+        $this->resource = $resource;
         $this->accessTicketCollectionFactory = $accessTicketCollectionFactory;
-        $this->searchResultFactory = $accessTicketSearchResultInterfaceFactory;
+        $this->searchResultsFactory = $searchResultsFactory;
         $this->collectionProcessor = $collectionProcessor;
     }
 
@@ -68,7 +66,7 @@ class AccessRequestRepository implements AccessRequestRepositoryInterface
     public function getById($id)
     {
         $accessTicket = $this->accessTicketFactory->create();
-        $this->accessTicketResourceModel->load($accessTicket, $id);
+        $this->resource->load($accessTicket, $id);
 
         if (!$accessTicket->getId())
             throw new NoSuchEntityException(__('Unable to find accessTicket with ID "%1"', $id));
@@ -80,7 +78,7 @@ class AccessRequestRepository implements AccessRequestRepositoryInterface
     public function save(AccessRequestInterface $accessTicket)
     {
         try {
-            $this->accessTicketResourceModel->save($accessTicket);
+            $this->resource->save($accessTicket);
         } catch (Exception $e) {
             throw new LocalizedException(__($e->getMessage()));
         }
@@ -90,7 +88,7 @@ class AccessRequestRepository implements AccessRequestRepositoryInterface
     public function delete(AccessRequestInterface $accessTicket)
     {
         try {
-            $this->accessTicketResourceModel->delete($accessTicket);
+            $this->resource->delete($accessTicket);
         } catch (Exception $e) {
             throw new LocalizedException(__($e->getMessage()));
         }
@@ -102,7 +100,7 @@ class AccessRequestRepository implements AccessRequestRepositoryInterface
         $collection = $this->accessTicketCollectionFactory->create();
         $this->collectionProcessor->process($searchCriteria, $collection);
 
-        $searchResults = $this->searchResultFactory->create();
+        $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($searchCriteria);
         $searchResults->setItems($collection->getItems());
 

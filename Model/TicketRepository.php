@@ -3,12 +3,10 @@
 namespace Evedove\AccessTicket\Model;
 
 use Evedove\AccessTicket\Api\Data\TicketInterface;
-use Evedove\AccessTicket\Api\Data\TicketSearchResultInterface;
-use Evedove\AccessTicket\Api\Data\TicketSearchResultInterfaceFactory;
+use Evedove\AccessTicket\Api\Data\TicketSearchResultsInterfaceFactory;
 use Evedove\AccessTicket\Api\TicketRepositoryInterface;
 use Evedove\AccessTicket\Model\ResourceModel\Ticket as TicketResourceModel;
 use Evedove\AccessTicket\Model\ResourceModel\Ticket\CollectionFactory as TicketCollectionFactory;
-use Evedove\AccessTicket\Model\TicketFactory;
 use Exception;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
@@ -25,7 +23,7 @@ class TicketRepository implements TicketRepositoryInterface
     /**
      * @var \Evedove\AccessTicket\Model\ResourceModel\Ticket
      */
-    protected TicketResourceModel $ticketResourceModel;
+    protected TicketResourceModel $resource;
 
     /**
      * @var \Evedove\AccessTicket\Model\ResourceModel\Ticket\CollectionFactory
@@ -33,9 +31,9 @@ class TicketRepository implements TicketRepositoryInterface
     protected TicketCollectionFactory $ticketCollectionFactory;
 
     /**
-     * @var \Evedove\AccessTicket\Api\Data\TicketSearchResultInterfaceFactory
+     * @var \Evedove\AccessTicket\Api\Data\TicketSearchResultsInterfaceFactory
      */
-    protected TicketSearchResultInterfaceFactory $searchResultFactory;
+    protected TicketSearchResultsInterfaceFactory $searchResultsFactory;
 
     /**
      * @var \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface
@@ -46,21 +44,21 @@ class TicketRepository implements TicketRepositoryInterface
      * @param \Evedove\AccessTicket\Model\TicketFactory $ticketFactory
      * @param \Evedove\AccessTicket\Model\ResourceModel\Ticket $ticketResourceModel
      * @param \Evedove\AccessTicket\Model\ResourceModel\Ticket\CollectionFactory $ticketCollectionFactory
-     * @param \Evedove\AccessTicket\Api\Data\TicketSearchResultInterfaceFactory $ticketSearchResultInterfaceFactory
+     * @param \Evedove\AccessTicket\Api\Data\TicketSearchResultsInterfaceFactory $searchResultsFactory
      * @param \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface $collectionProcessor
      */
     public function __construct(
-        TicketFactory                      $ticketFactory,
-        TicketResourceModel                $ticketResourceModel,
-        TicketCollectionFactory            $ticketCollectionFactory,
-        TicketSearchResultInterfaceFactory $ticketSearchResultInterfaceFactory,
-        CollectionProcessorInterface       $collectionProcessor
+        TicketFactory                       $ticketFactory,
+        TicketResourceModel                 $ticketResourceModel,
+        TicketCollectionFactory             $ticketCollectionFactory,
+        TicketSearchResultsInterfaceFactory $searchResultsFactory,
+        CollectionProcessorInterface        $collectionProcessor
     )
     {
         $this->ticketFactory = $ticketFactory;
-        $this->ticketResourceModel = $ticketResourceModel;
+        $this->resource = $ticketResourceModel;
         $this->ticketCollectionFactory = $ticketCollectionFactory;
-        $this->searchResultFactory = $ticketSearchResultInterfaceFactory;
+        $this->searchResultsFactory = $searchResultsFactory;
         $this->collectionProcessor = $collectionProcessor;
     }
 
@@ -68,7 +66,7 @@ class TicketRepository implements TicketRepositoryInterface
     public function getById($id)
     {
         $ticket = $this->ticketFactory->create();
-        $this->ticketResourceModel->load($ticket, $id);
+        $this->resource->load($ticket, $id);
 
         if (!$ticket->getId())
             throw new NoSuchEntityException(__('Unable to find ticket with ID "%1"', $id));
@@ -80,7 +78,7 @@ class TicketRepository implements TicketRepositoryInterface
     public function save(TicketInterface $ticket)
     {
         try {
-            $this->ticketResourceModel->save($ticket);
+            $this->resource->save($ticket);
         } catch (Exception $e) {
             throw new LocalizedException(__($e->getMessage()));
         }
@@ -90,7 +88,7 @@ class TicketRepository implements TicketRepositoryInterface
     public function delete(TicketInterface $ticket)
     {
         try {
-            $this->ticketResourceModel->delete($ticket);
+            $this->resource->delete($ticket);
         } catch (Exception $e) {
             throw new LocalizedException(__($e->getMessage()));
         }
@@ -102,7 +100,7 @@ class TicketRepository implements TicketRepositoryInterface
         $collection = $this->ticketCollectionFactory->create();
         $this->collectionProcessor->process($searchCriteria, $collection);
 
-        $searchResults = $this->searchResultFactory->create();
+        $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($searchCriteria);
         $searchResults->setItems($collection->getItems());
 
