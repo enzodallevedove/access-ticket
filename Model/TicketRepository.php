@@ -63,7 +63,7 @@ class TicketRepository implements TicketRepositoryInterface
     }
 
     /** @inheritdoc */
-    public function getById($id)
+    public function getById(int $id)
     {
         $ticket = $this->ticketFactory->create();
         $this->resource->load($ticket, $id);
@@ -82,6 +82,7 @@ class TicketRepository implements TicketRepositoryInterface
         } catch (Exception $e) {
             throw new LocalizedException(__($e->getMessage()));
         }
+        return $ticket;
     }
 
     /** @inheritdoc */
@@ -92,6 +93,13 @@ class TicketRepository implements TicketRepositoryInterface
         } catch (Exception $e) {
             throw new LocalizedException(__($e->getMessage()));
         }
+        return true;
+    }
+
+    /** @inheritdoc */
+    public function deleteById(int $id)
+    {
+        return $this->delete($this->getById($id));
     }
 
     /** @inheritdoc */

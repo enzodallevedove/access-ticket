@@ -20,7 +20,7 @@
         </resources>
     </route>
     <route url="/V1/evedove/tickets/:id" method="DELETE">
-        <service class="Evedove\AccessTicket\Api\TicketRepositoryInterface" method="delete"/>
+        <service class="Evedove\AccessTicket\Api\TicketRepositoryInterface" method="deleteById"/>
         <resources>
             <resource ref="anonymous"/>
         </resources>

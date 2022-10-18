@@ -12,7 +12,7 @@ interface TicketRepositoryInterface
      * @return \Evedove\AccessTicket\Api\Data\TicketInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function getById($id);
+    public function getById(int $id);
 
     /**
      * @param \Evedove\AccessTicket\Api\Data\TicketInterface $ticket
@@ -27,6 +27,14 @@ interface TicketRepositoryInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function delete(TicketInterface $ticket);
+
+    /**
+     * @param int $id
+     * @return bool true on success
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function deleteById(int $id);
 
     /**
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
