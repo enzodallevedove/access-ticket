@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Evedove_AccessTicket::system_acl"
+             title="Access Ticket"
+             translate="title"
+             module="Evedove_AccessTicket"
+             sortOrder="65"
+             parent="Magento_Backend::system"
+             resource="Evedove_AccessTicket::acl"/>
+
+        <add id="Evedove_AccessTicket::ticket"
+             title="Ticket Listing"
+             module="Evedove_AccessTicket"
+             sortOrder="1000"
+             parent="Evedove_AccessTicket::system_acl"
+             resource="Evedove_AccessTicket::system_acl"
+             action="accessticket/ticket/index" />
+    </menu>
+</config>

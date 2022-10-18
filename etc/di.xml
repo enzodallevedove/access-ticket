@@ -8,4 +8,18 @@
     <preference for="Evedove\AccessTicket\Api\Data\AccessRequestSearchResultsInterface" type="Evedove\AccessTicket\Model\AccessRequestSearchResults"/>
     <preference for="Evedove\AccessTicket\Api\AccessRequestRepositoryInterface" type="Evedove\AccessTicket\Model\AccessRequestRepository"/>
     <preference for="Evedove\AccessTicket\Api\Data\AccessInterface" type="Evedove\AccessTicket\Model\Access"/>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="accessticket_ticket_listing_data_source" xsi:type="string">AccessTicketTicketCollection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="AccessTicketTicketCollection" type="Evedove\AccessTicket\Ui\DataProvider\Ticket\Listing\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">accessticket_ticket</argument>
+            <argument name="resourceModel" xsi:type="string">Evedove\AccessTicket\Model\ResourceModel\Ticket</argument>
+        </arguments>
+    </virtualType>
 </config>
