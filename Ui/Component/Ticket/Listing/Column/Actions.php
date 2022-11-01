@@ -9,7 +9,7 @@ use Magento\Ui\Component\Listing\Columns\Column;
 
 class Actions extends Column
 {
-    const URL_PATH_EDIT = 'accessticekt/ticket/edit';
+    const URL_PATH_EDIT = 'accessticket/ticket/edit';
 
     /**
      * @var \Magento\Framework\UrlInterface
