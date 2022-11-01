@@ -13,6 +13,7 @@
         <arguments>
             <argument name="collections" xsi:type="array">
                 <item name="accessticket_ticket_listing_data_source" xsi:type="string">AccessTicketTicketCollection</item>
+                <item name="accessticket_access_request_listing_data_source" xsi:type="string">AccessTicketAccessRequestCollection</item>
             </argument>
         </arguments>
     </type>
@@ -20,6 +21,12 @@
         <arguments>
             <argument name="mainTable" xsi:type="string">accessticket_ticket</argument>
             <argument name="resourceModel" xsi:type="string">Evedove\AccessTicket\Model\ResourceModel\Ticket</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AccessTicketAccessRequestCollection" type="Evedove\AccessTicket\Ui\DataProvider\AccessRequest\Listing\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">accessticket_access_request</argument>
+            <argument name="resourceModel" xsi:type="string">Evedove\AccessTicket\Model\ResourceModel\AccessRequest</argument>
         </arguments>
     </virtualType>
 </config>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">accessticket_ticket_form.ticket_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Ticket Information</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="save" class="Evedove\AccessTicket\Block\Adminhtml\Ticket\Edit\SaveButton"/>
+            <button name="delete" class="Evedove\AccessTicket\Block\Adminhtml\Ticket\Edit\DeleteButton"/>
+            <button name="back" class="Evedove\AccessTicket\Block\Adminhtml\Ticket\Edit\BackButton"/>
+            <button name="reset" class="Evedove\AccessTicket\Block\Adminhtml\Ticket\Edit\ResetButton"/>
+        </buttons>
+        <namespace>accessticket_ticket_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>accessticket_ticket_form.ticket_form_data_source</dep>
+        </deps>
+        <layout>
+            <navContainerName>left</navContainerName>
+            <type>tabs</type>
+        </layout>
+    </settings>
+    <dataSource name="ticket_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="accessticket/ticket/save"/>
+        </settings>
+        <dataProvider class="Evedove\AccessTicket\Model\Ticket\DataProvider" name="ticket_form_data_source">
+            <settings>
+                <requestFieldName>entity_id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="general">
+        <settings>
+            <label translate="true">General Information</label>
+        </settings>
+        <field name="entity_id" sortOrder="10" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">ticket</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <visible>false</visible>
+                <dataScope>entity_id</dataScope>
+            </settings>
+        </field>
+        <field name="title" sortOrder="20" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">ticket</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Title</label>
+                <dataScope>title</dataScope>
+            </settings>
+        </field>
+        <field name="description" sortOrder="30">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="cols" xsi:type="number">15</item>
+                    <item name="rows" xsi:type="number">5</item>
+                    <item name="label" translate="true" xsi:type="string">Description</item>
+                    <item name="dataType" translate="true" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </field>
+        <field name="external_id" sortOrder="40" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">ticket</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">External ID</label>
+                <dataScope>external_id</dataScope>
+            </settings>
+        </field>
+    </fieldset>
+    <fieldset name="access_request">
+        <settings>
+            <label translate="true">Access Request</label>
+            <level>1</level>
+            <collapsible>true</collapsible>
+        </settings>
+        <insertListing name="accessticket_access_request_listing">
+            <settings>
+                <dataLinks>
+                    <exports>false</exports>
+                    <imports>true</imports>
+                </dataLinks>
+                <autoRender>true</autoRender>
+                <selectionsProvider>accessticket_access_request_listing.accessticket_access_request_listing.columns.ids</selectionsProvider>
+                <dataScope>accessticket_access_request_listing</dataScope>
+                <ns>accessticket_access_request_listing</ns>
+            </settings>
+        </insertListing>
+    </fieldset>
+</form>
